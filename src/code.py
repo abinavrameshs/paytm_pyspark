@@ -12,5 +12,13 @@ test = spark.read.format("csv").option("header", "true").load("../data/test.csv"
 
 test.show(15)
 
+#### Test Spark SQL
+
+a = spark.sql(f"""
+select 12 as c1
+""")
+
+a.show()
+
 
 
