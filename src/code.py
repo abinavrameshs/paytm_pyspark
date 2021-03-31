@@ -194,13 +194,19 @@ logger.info('====================================================')
 
 
 temp = spark.sql(f"""
+select * 
+,row_number() over(order by avg_mean_temp desc) as rank
+from
+(
 select country_abbr, country_full, avg(cast(WDSP as double)) as avg_mean_temp
 from weather_station_country
 where cast(WDSP as double) !=999.9
 group by 1,2
-order by 3 desc
+--order by 3 desc
+)a
 """)
 
+top_2 = temp.where("rank==2")
 
 
-temp.show()
+top_2.show()
